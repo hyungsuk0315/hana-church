@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 
-
-<script>
-import { defineComponent } from 'vue'
-=======
 <script setup lang="ts">
 import StreamListItem from 'src/components/StreamListItem.vue';
->>>>>>> 34697584216cc897c7b0dd2af023e8f3fd2e2398
 import { db } from 'boot/firebase';
 import {
   collection,
@@ -15,41 +9,6 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
   where,
-<<<<<<< HEAD
-  getDatabase,ref, onValue
-} from 'firebase/firestore';
-
-export default defineComponent({
-    name:'PlayList',
-    props:{
-        tag:{
-            required:true,
-            type:String
-        }
-    },
-    setup(props) {
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, 'HTS')).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-        } else {
-            console.log('No data available');
-        }
-        }).catch((error) => {
-        console.error(error);
-        });
-    },
-    mounted() {
-        console.log('[PlayList] items ', this.items)
-    }
-})
-</script>
-<template>
-  <div v-for="(item, i) in items" :key="i"> 
-      play list {{item}}
-  </div>  
-</template>
-=======
 } from 'firebase/firestore';
 import { onMounted, ref, defineProps } from 'vue';
 
@@ -58,6 +17,7 @@ const props = defineProps<{
 }>();
 
 const items = ref<QueryDocumentSnapshot<DocumentData>[]>([]);
+
 
 const getData = async () => {
   let q;
@@ -76,8 +36,34 @@ const getData = async () => {
   );
   console.log('[PlayList]', items.value[0].data());
 };
+const test = ()  => {
+  console.log('test - ', items.value[0].data())
+  let out = [];
+  let small = [];
+  for(var i = 0 ; i < items.value.length ; i++){
+    if(i % 4 === 0){
+      if(i > 0)
+        out.push(small);
+      small = [];
+    }
+    small.push(items.value[i].data());
+  }
+  console.log('out - ',out);
+  const tt = out
+  return out;
+}
 const slide = ref(1);
-onMounted(() => getData());
+// onMounted(() => getData());
+onMounted(() => {
+  const fetchData = new Promise((resolve, reject)=>{
+    console.log('doing something')
+    resolve('fetchData')
+  })
+    .then((val) => console.log('promise then - ', val))
+    .then(val => getData())
+    .then(val => test())
+    .finally(console.log('finally - ', tt))
+})
 </script>
 <template>
   <div class="q-pa-md">
@@ -93,18 +79,19 @@ onMounted(() => getData());
       height="350px"
       class="bg-grey-1 shadow-2 rounded-borders"
     >
-      <q-carousel-slide :name="1" class="column no-wrap">
+      <q-carousel-slide   :name="1" class="column no-wrap">
         <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-        <div
+        <!-- <div
         class="col-3"
         v-for="item in items"
-        :key="item.id"
-      >
-        <StreamListItem :item="item" />
-      </div>
+        :key="item"
+      > -->
+          <div v-for="(item, i) in test" :key="i">
+            item
+          </div>
+        <!-- <StreamListItem :item="item" /> -->
         </div>
       </q-carousel-slide>
     </q-carousel>
   </div>
 </template>
->>>>>>> 34697584216cc897c7b0dd2af023e8f3fd2e2398
