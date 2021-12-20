@@ -48,7 +48,6 @@ const onNextDate = function () {
 const item = ref<QueryDocumentSnapshot<DocumentData>>();
 const getUserInfo = async () => {
   if(firebaseUser.value !== null){
-    console.log('firebaseUser.value.uid', firebaseUser.value.uid);
     const ref = doc(db, 'users', firebaseUser.value.uid);
     item.value = await getDoc(ref);
     if(item.value.data() == undefined){
@@ -64,7 +63,6 @@ const getUserInfo = async () => {
   }
 };
 const setUserInfo = async () => {
-  console.log(' setUserInfo firebaseUser.value.uid', firebaseUser.value.uid)
   await setDoc(doc(db, 'users', firebaseUser.value.uid ), {
     'checkedDate' : events.value,
     'readPlan' : readPlan.value,
@@ -75,8 +73,7 @@ const registerUserInfo = () => {
   new Promise((resolve) => {
     resolve(setUserInfo());
   })
-    .then(() => console.log('registerUserInfo'))
-    .catch(e => console.log('registerUserInfo errr -', e))
+    .catch(e => console.log(e))
 }
 //firebase functions
 //update data & initialize
@@ -86,9 +83,8 @@ watchEffect(() => {
   {
     if(!checkInit.value){ //initialize 
       new Promise((resolve) => {
-          resolve(console.log('init readthru'));
+          resolve(getUserInfo());
       })
-        .then(() => getUserInfo())
         .catch(e => console.log(e))
     }
     else

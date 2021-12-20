@@ -11,14 +11,11 @@ const checkedDate = ref(props.checked); //date list of readers
 const setReadDate = ( date:string) => {
   if(checkedDate.value.indexOf(date) < 0)
   {
-    console.log('registered');
     checkedDate.value.push(date);
   }
   else{
-    console.log('already registered');
     let idx = checkedDate.value.indexOf(date);
     checkedDate.value.splice(idx, 1) ;
-    console.log('set read date ', checkedDate.value);
   }
 };
 //update date list of readers
@@ -36,7 +33,6 @@ const tab = ref(0);//bible script tab
 const bookList = ref([]);//today's bible list 
 //staus changed (read -> unread) or (unread -> read)
 const onClickComplete = () => {
-  console.log('click ', props.date);
   setReadDate(props.date);
 }
 //test bible data
@@ -85,9 +81,8 @@ const onChangeTab = function(){
 
 const init = () => {
   new Promise((resolve) => {
-    resolve(console.log('read page init ', props.checked));
+    resolve(onChangeTab());
   })
-    .then(() => onChangeTab())
     .catch(e => console.log(e))
 }
 //check status
