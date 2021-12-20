@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import PlayList from 'src/components/PlayList.vue';
-import PlayList_m from 'src/components/PlayList_m.vue';
+import StreamListItem from 'src/components/StreamListItem.vue';
 import { db } from 'boot/firebase';
 import {
   collection,
@@ -8,11 +7,12 @@ import {
   query,
   QueryDocumentSnapshot,
   DocumentData,
+  where,
 } from 'firebase/firestore';
 import { onMounted, ref, defineProps, onUpdated } from 'vue';
 
 const props = defineProps<{
-  tag: string;
+  tag: { type: string };
 }>();
 
 const items = ref<QueryDocumentSnapshot<DocumentData>[]>([]);
@@ -20,11 +20,11 @@ const items = ref<QueryDocumentSnapshot<DocumentData>[]>([]);
 const getData = async () => {
   let q;
   if (props.tag) {
-    q = query(collection(db, props.tag));
+    q = query(collection(db, 'streams'), where('playlistName', '==', props.tag));
   } else {
     q = query(collection(db, 'streams'));
   }
-
+  console.log('props.tag -' , props.tag)
   const querySnapshot = await getDocs(q);
   items.value = querySnapshot.docs;
 
@@ -32,22 +32,25 @@ const getData = async () => {
   items.value = items.value.sort(
     (a, b) => (a.data().date < b.data().date && 1) || -1
   );
-  console.log('[Debug]', items.value[0]);
 };
-const isMobile = () => {
-  console.log('window size - ', window.innerWidth)
-  return window.innerWidth < 600
-}
 onMounted(() => getData());
 onUpdated(() => getData());
 </script>
 <template>
-  <q-page>
-    <!-- <q-toolbar-title class='text-center text-weight-bold'>{{props.tag}}</q-toolbar-title> -->
-    <!-- {{ tagList[props.tag] }} -->
-    <div v-for="(item, i) in items" :key="i" >
-      <PlayList :tag="item.data().playlistName" :key="item.data().playlistName" v-if="!isMobile()"/>
-      <PlayList_m :tag="item.data().playlistName" :key="item.data().playlistName" v-if="isMobile()" /> 
-    </div>
+  <q-page class='q-pa-md'>
+
+    <q-div>
+      <div class="q-pb-md" v-for="(item, i) in items" :key="i">
+        <StreamListItem :item="item" />
+      </div>
+    </q-div>
   </q-page>
 </template>
+
+<style>
+#head{
+  background: #3CD3AD;
+  text-align: center;
+
+}
+</style>

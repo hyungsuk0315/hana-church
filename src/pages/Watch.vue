@@ -27,10 +27,10 @@ onMounted(() => getData());
     <div class="row">
       <StreamVideo
         v-if="stream"
-        class="col-12 col-xs-12 col-md-7"
+        class="col-12 col-md-8"
         :item="stream"
       />
-      <StreamScroll v-if="stream" class="col-12 col-xs-8 col-md-4" />
+      <StreamScroll v-if="stream" class="col-12 col-md-4" />
     </div>
   </div>
 </template>

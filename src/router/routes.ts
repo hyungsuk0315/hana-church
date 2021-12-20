@@ -38,6 +38,17 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/messagelist/:tag',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '/messagelist/:tag',
+        component: () => import('pages/MessageList.vue'),
+        props: true,
+      },
+    ],
+  },
+  {
     path: '/watch/:streamDocId',
     component: () => import('layouts/MainLayout.vue'),
     children: [

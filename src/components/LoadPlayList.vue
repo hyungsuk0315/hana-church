@@ -60,9 +60,7 @@ const registerStreamList = async () => {
     icon: 'announcement',
   });
 };
-const onSubmitList = async() => {
-  await registerStreamList();
-}
+
 const registerPlaylistItems = async () => {
   console.log('playlistId: ', playlistId.value);
 
@@ -121,14 +119,6 @@ const existenceCheckRule = (val: string) =>
           :rules="[existenceCheckRule]"
         />
 
-        <q-input
-          filled
-          v-model="playlistId"
-          label="재생목록 이름"
-          hint="내용을 입력하세요"
-          lazy-rules
-          :rules="[existenceCheckRule]"
-        />
 
         <q-input
           filled

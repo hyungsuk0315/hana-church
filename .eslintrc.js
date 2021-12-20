@@ -77,6 +77,8 @@ module.exports = {
   rules: {
     'prefer-promise-reject-errors': 'off',
 
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
     // TypeScript
     quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',

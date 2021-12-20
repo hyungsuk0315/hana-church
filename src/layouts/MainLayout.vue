@@ -10,6 +10,8 @@ import {
   fasDiceOne,
 } from '@quasar/extras/fontawesome-v5';
 import AuthBtn from 'components/auth/AuthBtn.vue';
+import { useQuasar } from 'quasar';
+const $q = useQuasar();
 
 const leftDrawerOpen = ref(false);
 // const search = ref('');
@@ -52,9 +54,9 @@ const links4 = [
 // ];
 </script>
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHr Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-primary text-white q-pa-xs">
         <q-btn
           flat
           dense
@@ -62,14 +64,15 @@ const links4 = [
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
+          class="q-my-md q-mx-xs"
         />
 
         <router-link to="/" style="text-decoration: none; color: inherit">
-          <!--<q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs" #>
-            <q-toolbar-title shrink class="text-weight-bold">
-              하나교회
+          <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs" #>
+            <q-toolbar-title class="text-weight-bold">
+              신촌하나교회
             </q-toolbar-title>
-          </q-btn>-->
+          </q-btn>
         </router-link>
 
         <q-space />
@@ -112,33 +115,23 @@ const links4 = [
         </div> -->
         <AuthBtn />
       </q-toolbar>
-      <q-toolbar inset>
-        <q-toolbar-title><strong>신촌하나교회</strong></q-toolbar-title>
-        <q-space />
-
-        <q-tabs v-model="tab" shrink>
-          <q-tab :to="admin" name="소식" label="예배 LIVE" />
-          <q-tab name="공동체" label="공동체" />
-          <q-tab name="오시는길" label="오시는길" />
-        </q-tabs>
-      </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      bordered
-      class="bg-grey-2"
+      elevated
+      :class="$q.dark.isActive ? 'bg-dark' : 'bg-white'"
       :width="240"
     >
       <q-scroll-area class="fit">
-        <div class="q-pa-lg">
+        <!--<div class="q-pa-lg bg-white">
           <q-img
             fit="fill"
             src="../assets/hana-church-logo.png"
             spinner-color="white"
           />
-        </div>
+        </div>-->
         <q-item
           v-for="link in links1"
           :key="link.text"
