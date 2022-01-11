@@ -31,16 +31,23 @@ function api<T>(url: string): Promise<T> {
 }
 
 const registerStream = async (playlistItem: PlayListItem) => {
-  await setDoc(doc(db, 'streams', playlistItem.snippet.resourceId.videoId), {
-    title: playlistItem.snippet.title,
-    url: `https://www.youtube.com/embed/${playlistItem.snippet.resourceId.videoId}?rel=0`,
-    tag: tag.value,
-    preacher: preacher.value,
-    thumbnailUrl: playlistItem.snippet.thumbnails.high.url,
-    date: playlistItem.snippet.publishedAt,
-    playlistName:playlistName.value,
-    playlistId : playlistId.value
-  });
+  await setDoc(
+    doc(
+      db,
+      'streams',
+      `${playlistItem.snippet.resourceId.videoId}_${playlistName.value}`
+    ),
+    {
+      title: playlistItem.snippet.title,
+      url: `https://www.youtube.com/embed/${playlistItem.snippet.resourceId.videoId}?rel=0`,
+      tag: tag.value,
+      preacher: preacher.value,
+      thumbnailUrl: playlistItem.snippet.thumbnails.high.url,
+      date: playlistItem.snippet.publishedAt,
+      playlistName: playlistName.value,
+      playlistId: playlistId.value,
+    }
+  );
   // clear();
   $q.notify({
     message: '등록되었습니다',
@@ -50,8 +57,8 @@ const registerStream = async (playlistItem: PlayListItem) => {
 };
 const registerStreamList = async () => {
   await setDoc(doc(db, tag.value, playlistId.value), {
-    playlistName:playlistName.value,
-    playlistId : playlistId.value
+    playlistName: playlistName.value,
+    playlistId: playlistId.value,
   });
   // clear();
   $q.notify({
@@ -80,7 +87,7 @@ const registerPlaylistItems = async () => {
     })
     .then((playlistItems) => {
       playlistItems.map(async (item) => await registerStream(item));
-      return playlistItems
+      return playlistItems;
     })
     .catch(function (error) {
       console.log(error);
@@ -99,7 +106,13 @@ const existenceCheckRule = (val: string) =>
   (val && val.length > 0) || '입력란이 비었습니다';
 </script>
 <template>
-  <q-card v-if="isSigned && (firebaseUser?.email === 'lionandthelab@gmail.com' || firebaseUser?.email === 'hyungsuk0315@gmail.com')">
+  <q-card
+    v-if="
+      isSigned &&
+      (firebaseUser?.email === 'lionandthelab@gmail.com' ||
+        firebaseUser?.email === 'hyungsuk0315@gmail.com')
+    "
+  >
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-card-section>
         <q-input
@@ -118,7 +131,6 @@ const existenceCheckRule = (val: string) =>
           lazy-rules
           :rules="[existenceCheckRule]"
         />
-
 
         <q-input
           filled

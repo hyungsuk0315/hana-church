@@ -17,6 +17,16 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/WorshipLive.vue') }],
   },
   {
+    path: '/one-verse',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/OneVerse.vue') }],
+  },
+  {
+    path: '/qt',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/QT.vue') }],
+  },
+  {
     path: '/joy-chant',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/JoyChant.vue') }],
@@ -33,17 +43,6 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/message/:tag',
         component: () => import('pages/Message.vue'),
-        props: true,
-      },
-    ],
-  },
-  {
-    path: '/messagelist/:tag',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      {
-        path: '/messagelist/:tag',
-        component: () => import('pages/MessageList.vue'),
         props: true,
       },
     ],

@@ -38,3 +38,4 @@ firebaseConfig.js
 *.log
 .firebaserc
 yarn.lock
+.firebase/hosting*

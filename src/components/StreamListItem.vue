@@ -1,47 +1,49 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue';
 import { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
-import {   fasList } from '@quasar/extras/fontawesome-v5';
-
+//import { useQuasar } from 'quasar';
+//const $q = useQuasar();
 const props = defineProps<{
   item: QueryDocumentSnapshot<DocumentData>;
+  imgStyle: string;
+  cardStyle: string;
 }>();
 const stream = computed(() => props.item.data());
 const streamTo = computed(() => `/Watch/${props.item.id}`);
-console.log('prps ', props.item)
 </script>
 <template>
-  <div min-width="200px">
-    <router-link  :to="streamTo">
-      <q-card style="  border:2px solid #D3D3D3;">
-        <q-img :src="stream.thumbnailUrl" :ratio="16 / 9"/>
-        <div id="infoContainer">
-          <div class='q-pt-md q-pl-md'>
-            <q-icon color="grey" :name="fasList"  style="font-size: 2em;" />
-          </div>
-        <q-toolbar-title id="title" class="q-pl-md q-py-sm" style="font: 1.3em; color:rgba(0,0,0,1)">
-              {{stream.title}}
-              <br>
-              <div id='infoPreacher' style="font: 0.8em; color:rgba(0,0,0,0.5)">{{stream.preacher}}<br>{{stream.date.split('T')[0]}}</div>
-        </q-toolbar-title>     
-        </div>   
+  <router-link :to="streamTo">
+    <div class="fit">
+      <q-card style="width: 100%" :style="props.imgStyle">
+        <q-img
+          :style="props.imgStyle"
+          fit="cover"
+          :src="stream.thumbnailUrl"
+          :ratio="16 / 9"
+        />
       </q-card>
-    </router-link>
-  </div>
+      <div class="column" :style="props.cardStyle">
+        <q-label
+          style="
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+          "
+          class="row q-pa-xs text-h5 text-weight-bolder text-body1"
+        >
+          {{ stream.title }}
+        </q-label>
+        <q-label class="row q-pl-sm text-caption text-weight-light">
+          {{ stream.preacher }}
+        </q-label>
+        <q-label class="row q-pl-sm text-caption text-weight-light">
+          {{ stream.tag }} • {{ stream.date.split('T')[0] }}
+        </q-label>
+      </div>
+    </div>
+  </router-link>
 </template>
 
-<style>
-#infoContainer{
-  display: flex;
-  vertical-align:middle;
-}
-#title{
-  display: inline;
-  font: 1.2em "Fira Sans", monospace;
-  color: black;
-}
-#logo{
-  display:table-cell; 
-  vertical-align:middle;
-}
-</style>
+<style></style>

@@ -3,22 +3,20 @@ import {} from 'vue';
 import { auth } from 'boot/firebase';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import { firebaseUser, useAuth } from 'src/composables/useAuth';
-import { useQuasar } from 'quasar';
-const $q = useQuasar();
+//import { useQuasar } from 'quasar';
 
 useAuth();
 
 const provider = new GoogleAuthProvider();
 </script>
 <template>
-  <q-btn flat v-if="firebaseUser" round color="white" class="q-mx-xs">
-    <q-avatar color="white" size="32px" padding="md">
+  <q-btn flat v-if="firebaseUser" round class="q-mx-xs">
+    <q-avatar size="32px" padding="md">
       <img
         :src="
           firebaseUser.photoURL || 'https://cdn.quasar.dev/img/boy-avatar.png'
         "
       />
-
       <q-menu>
         <q-card>
           <q-list>
@@ -44,19 +42,12 @@ const provider = new GoogleAuthProvider();
             </q-item>
           </q-list>
           <q-card-actions align="right">
-            <q-btn
-              icon="mdi-brightness-6"
-              flat
-              color="primary"
-              @click="$q.dark.toggle()"
-            ></q-btn>
-            <q-btn icon="mdi-upload" flat color="primary" to="/admin"></q-btn>
+            <q-btn icon="mdi-upload" label="업로드" flat to="/admin"></q-btn>
             <q-space></q-space>
             <q-btn
               icon="mdi-logout"
               label="로그아웃"
               flat
-              color="primary"
               @click="signOut(auth)"
             ></q-btn>
           </q-card-actions>
@@ -64,13 +55,7 @@ const provider = new GoogleAuthProvider();
       </q-menu>
     </q-avatar>
   </q-btn>
-  <q-btn
-    flat
-    v-else
-    @click="signInWithPopup(auth, provider)"
-    round
-    color="white"
-  >
+  <q-btn flat v-else @click="signInWithPopup(auth, provider)" round>
     <q-avatar icon="mdi-login" size="32px" />
   </q-btn>
 </template>

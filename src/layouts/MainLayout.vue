@@ -8,6 +8,7 @@ import {
   fasBookmark,
   fasPen,
   fasDiceOne,
+  fasPrayingHands,
 } from '@quasar/extras/fontawesome-v5';
 import AuthBtn from 'components/auth/AuthBtn.vue';
 import { useQuasar } from 'quasar';
@@ -25,9 +26,10 @@ const links1 = [
 const links2 = [
   { icon: fasBookmark, text: 'UCM 예배', url: '/message/UCM' },
   { icon: fasPen, text: 'HTS 성경공부', url: '/message/HTS' },
-  { icon: fasDiceOne, text: 'ONE VERSE', url: '/message/OneVerse' },
+  { icon: fasDiceOne, text: 'ONE VERSE', url: '/one-verse' },
 ];
 const links3 = [
+  { icon: fasPrayingHands, text: 'Q.T.', url: '/qt' },
   { icon: fasBook, text: '하나통독', url: '/read-thru' },
   { icon: fasGrinStars, text: '조이챈트', url: '/joy-chant' },
 ];
@@ -54,9 +56,12 @@ const links4 = [
 // ];
 </script>
 <template>
-  <q-layout view="hHr Lpr lFf">
-    <q-header elevated>
-      <q-toolbar class="bg-primary text-white q-pa-xs">
+  <q-layout view="hHr Lpr lFf" class="dark">
+    <q-header reveal bordered>
+      <q-toolbar
+        class="text-primary q-pa-xs"
+        :class="$q.dark.isActive ? 'bg-dark' : 'bg-white'"
+      >
         <q-btn
           flat
           dense
@@ -64,12 +69,23 @@ const links4 = [
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
-          class="q-my-md q-mx-xs"
+          class="q-my-sm q-mx-xs"
+          :class="$q.dark.isActive ? 'text-white' : 'text-black'"
         />
 
         <router-link to="/" style="text-decoration: none; color: inherit">
-          <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs" #>
-            <q-toolbar-title class="text-weight-bold">
+          <q-btn flat no-caps no-wrap class="q-ml-xs" style="width: 170px" #>
+            <q-img
+              fit="contain"
+              src="../assets/hana-church-logo.png"
+              style="height: 30px; max-width: 30px"
+              spinner-color="white"
+              class="rounded-borders"
+            />
+            <q-toolbar-title
+              class="text-weight-bolder text-body1"
+              :class="$q.dark.isActive ? 'text-white' : 'text-black'"
+            >
               신촌하나교회
             </q-toolbar-title>
           </q-btn>
@@ -122,7 +138,7 @@ const links4 = [
       show-if-above
       elevated
       :class="$q.dark.isActive ? 'bg-dark' : 'bg-white'"
-      :width="240"
+      :width="200"
     >
       <q-scroll-area class="fit">
         <!--<div class="q-pa-lg bg-white">
@@ -239,6 +255,18 @@ const links4 = [
             </a>
           </div>
         </div>
+        <q-space></q-space>
+        <q-btn
+          :icon="$q.dark.isActive ? 'mdi-brightness-7' : 'mdi-brightness-4'"
+          flat
+          label="다크모드"
+          :color="$q.dark.isActive ? 'yellow' : 'dark'"
+          @click="$q.dark.toggle()"
+        ></q-btn>
+        <q-toggle
+          v-model="$q.dark.isActive"
+          :color="$q.dark.isActive ? 'yellow' : 'dark'"
+        ></q-toggle>
       </q-scroll-area>
     </q-drawer>
 

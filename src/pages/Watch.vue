@@ -8,7 +8,6 @@ import {
 } from 'firebase/firestore';
 import { db } from 'boot/firebase';
 import StreamVideo from 'src/components/StreamVideo.vue';
-import StreamScroll from 'src/components/StreamScroll.vue';
 
 const props = defineProps<{
   streamDocId: { type: string };
@@ -23,14 +22,14 @@ const getData = async () => {
 onMounted(() => getData());
 </script>
 <template>
-  <div>
-    <div class="row">
+  <q-page>
+    <div class="row full-width justify-center items-center content-center">
       <StreamVideo
         v-if="stream"
-        class="col-12 col-md-8"
+        class="col q-pa-md"
         :item="stream"
+        style="max-width: 165vh"
       />
-      <StreamScroll v-if="stream" class="col-12 col-md-4" />
     </div>
-  </div>
+  </q-page>
 </template>
